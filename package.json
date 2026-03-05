@@ -1,0 +1,84 @@
+{
+  "name": "@mostajs/ticketing",
+  "version": "1.0.0",
+  "description": "Reusable ticketing module — ticket lifecycle, scan validation, quota management, API route factories",
+  "author": "Dr Hamid MADANI <drmdh@msn.com>",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./schemas/*": {
+      "types": "./dist/schemas/*.d.ts",
+      "import": "./dist/schemas/*.js",
+      "default": "./dist/schemas/*.js"
+    },
+    "./repositories/*": {
+      "types": "./dist/repositories/*.d.ts",
+      "import": "./dist/repositories/*.js",
+      "default": "./dist/repositories/*.js"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "import": "./dist/lib/*.js",
+      "default": "./dist/lib/*.js"
+    },
+    "./api/*": {
+      "types": "./dist/api/*.d.ts",
+      "import": "./dist/api/*.js",
+      "default": "./dist/api/*.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js",
+      "default": "./dist/types/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "ticketing",
+    "ticket",
+    "scan",
+    "qrcode",
+    "quota",
+    "nextjs",
+    "mosta"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apolocine/mosta-ticketing"
+  },
+  "homepage": "https://mostajs.dev/packages/ticketing",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@mostajs/orm": "^1.0.0"
+  },
+  "peerDependencies": {
+    "next": ">=14"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.3",
+    "next": "^16.1.6",
+    "typescript": "^5.9.3"
+  }
+}
