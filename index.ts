@@ -37,6 +37,23 @@ export type { ScanDeps } from './lib/scan-processor';
 export { computeValidUntil, isExpired, isToday } from './lib/validity-checker';
 export { decrementQuota, isQuotaDepleted, wouldExceedQuota } from './lib/quota-manager';
 
+// ── Ticket number (Wiegand 24-bit) ───────────────────────────────
+export {
+  DAY_MULTIPLIER,
+  DAY_MODULO,
+  YEAR_MODULO,
+  MAX_SEQUENCE,
+  MAX_TICKET_VALUE,
+  getDayOfYear,
+  computeCombinedDay,
+  extractCombinedDayFromTicket,
+  extractDayFromTicket,
+  extractYearFromTicket,
+  extractSequenceFromTicket,
+  isTicketFromToday,
+  isValidTicketFormat,
+} from './lib/ticket-number';
+
 // ── API route factories ────────────────────────────────────────────
 export { createScanHandler } from './api/scan.route';
 export { createTicketsHandler } from './api/tickets.route';

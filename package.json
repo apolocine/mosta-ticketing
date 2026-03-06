@@ -1,6 +1,6 @@
 {
   "name": "@mostajs/ticketing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reusable ticketing module — ticket lifecycle, scan validation, quota management, API route factories",
   "author": "Dr Hamid MADANI <drmdh@msn.com>",
   "license": "MIT",

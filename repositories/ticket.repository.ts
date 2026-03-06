@@ -5,6 +5,12 @@ import { randomUUID } from 'crypto';
 import { BaseRepository } from '@mostajs/orm';
 import { TicketSchema } from '../schemas/ticket.schema';
 import { CounterSchema } from '../schemas/counter.schema';
+import {
+  computeCombinedDay,
+  DAY_MULTIPLIER,
+  MAX_SEQUENCE,
+  MAX_TICKET_VALUE,
+} from '../lib/ticket-number';
 import type { IDialect, QueryOptions } from '@mostajs/orm';
 import type { CodeFormat } from '../types/index';
 
@@ -38,14 +44,49 @@ export class TicketRepository extends BaseRepository<TicketDTO> {
     super(TicketSchema, dialect);
   }
 
-  /** Generate next ticket number: TKT-20260228-0001 */
-  async getNextTicketNumber(prefix = 'TKT'): Promise<string> {
-    const today = new Date();
-    const dateStr = today.toISOString().slice(0, 10).replace(/-/g, '');
-    const counterRepo = new BaseRepository(CounterSchema, this.dialect);
-    const counter = await counterRepo.increment(`ticket-${dateStr}`, 'seq', 1);
-    const seq = (counter as any)?.seq ?? 1;
-    return `${prefix}-${dateStr}-${String(seq).padStart(4, '0')}`;
+  /**
+   * Generate next ticket number in Wiegand 24-bit format.
+   *
+   * Format: Ticket = ((Annee % 4) x 32 + (JourAnnee % 32)) x 131072 + Sequence
+   *
+   * Cross-dialect: uses only BaseRepository.upsert() + BaseRepository.increment()
+   * which are implemented by all @mostajs/orm dialects (Mongo, SQLite, Postgres, etc.)
+   *
+   * @param date - Date to encode in ticket (default: today)
+   * @returns Numeric ticket number as string (e.g. "7077889")
+   */
+  async getNextTicketNumber(date: Date = new Date()): Promise<string> {
+    const combinedDay = computeCombinedDay(date);
+
+    const dateStr = date.toISOString().split('T')[0];
+    const counterName = `ticket-${dateStr}`;
+    const counterRepo = new BaseRepository<{ id: string; name: string; seq: number }>(
+      CounterSchema, this.dialect
+    );
+
+    // 1. Ensure counter exists (cross-dialect: Mongo=findOneAndUpdate, SQL=findOne+create/update)
+    const ensured = await counterRepo.upsert(
+      { name: counterName },
+      { name: counterName, seq: 0 } as any
+    );
+
+    // 2. Atomic increment with the real id returned by the dialect
+    const updated = await counterRepo.increment(ensured.id, 'seq', 1);
+    const seqNum = updated?.seq ?? 1;
+
+    if (seqNum > MAX_SEQUENCE) {
+      throw new Error(
+        `Capacite depassee pour ${dateStr}: ${seqNum} > ${MAX_SEQUENCE}`
+      );
+    }
+
+    const ticketValue = (combinedDay * DAY_MULTIPLIER) + seqNum;
+
+    if (ticketValue > MAX_TICKET_VALUE) {
+      throw new Error(`Ticket hors limite 24-bit: ${ticketValue} > ${MAX_TICKET_VALUE}`);
+    }
+
+    return String(ticketValue);
   }
 
   /** Create ticket with auto-generated ticketNumber and code */
