@@ -58,6 +58,10 @@ export {
 export { createScanHandler } from './api/scan.route';
 export { createTicketsHandler } from './api/tickets.route';
 
+// ── Permissions ──────────────────────────────────────────────────────
+export { TICKETING_PERMISSIONS, TICKETING_PERMISSION_DEFINITIONS, TICKETING_CATEGORY_DEFINITIONS } from './lib/permissions';
+export type { TicketingPermission } from './lib/permissions';
+
 // ── Types ──────────────────────────────────────────────────────────
 export type {
   CodeFormat,

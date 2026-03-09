@@ -1,0 +1,29 @@
+{
+  "_author": "Dr Hamid MADANI drmdh@msn.com",
+  "title": "Tickets",
+  "create": "Générer ticket",
+  "fields": {
+    "ticketNumber": "N° Ticket",
+    "client": "Client",
+    "activity": "Activité",
+    "ticketType": "Type",
+    "status": "Statut",
+    "validUntil": "Valide jusqu'au",
+    "amount": "Montant"
+  },
+  "types": {
+    "standard": "Standard",
+    "cadeau": "Cadeau"
+  },
+  "statuses": {
+    "active": "Actif",
+    "used": "Utilisé",
+    "expired": "Expiré",
+    "cancelled": "Annulé"
+  },
+  "gift": {
+    "title": "Ticket Cadeau",
+    "source": "Offert par",
+    "anonymous": "Porteur anonyme"
+  }
+}

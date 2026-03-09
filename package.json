@@ -1,6 +1,6 @@
 {
   "name": "@mostajs/ticketing",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Reusable ticketing module — ticket lifecycle, scan validation, quota management, API route factories",
   "author": "Dr Hamid MADANI <drmdh@msn.com>",
   "license": "MIT",
@@ -33,6 +33,16 @@
       "import": "./dist/api/*.js",
       "default": "./dist/api/*.js"
     },
+    "./lib/permissions": {
+      "types": "./dist/lib/permissions.d.ts",
+      "import": "./dist/lib/permissions.js",
+      "default": "./dist/lib/permissions.js"
+    },
+    "./lib/menu": {
+      "types": "./dist/lib/menu.d.ts",
+      "import": "./dist/lib/menu.js",
+      "default": "./dist/lib/menu.js"
+    },
     "./types": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/types/index.js",
@@ -41,6 +51,8 @@
   },
   "files": [
     "dist",
+    "i18n",
+    "ticketing.wire.json",
     "LICENSE",
     "README.md"
   ],

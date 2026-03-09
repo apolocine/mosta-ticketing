@@ -1,0 +1,50 @@
+{
+  "_doc": "Manifeste de câblage pour @mostajs/ticketing",
+  "package": "@mostajs/ticketing",
+  "version": "1.0.1",
+  "type": "business",
+
+  "schemas": {
+    "from": "@mostajs/ticketing",
+    "exports": ["TicketSchema", "ClientAccessSchema", "ScanLogSchema", "SubscriptionPlanSchema", "ActivitySchema", "CounterSchema"]
+  },
+
+  "repositories": [
+    { "class": "TicketRepository", "type": "TicketDTO", "factory": "ticketRepo", "from": "@mostajs/ticketing" },
+    { "class": "ClientAccessRepository", "type": "ClientAccessDTO", "factory": "clientAccessRepo", "from": "@mostajs/ticketing" },
+    { "class": "ScanLogRepository", "type": "ScanLogDTO", "factory": "scanLogRepo", "from": "@mostajs/ticketing" },
+    { "class": "SubscriptionPlanRepository", "type": "SubscriptionPlanDTO", "factory": "subscriptionPlanRepo", "from": "@mostajs/ticketing" },
+    { "class": "ActivityRepository", "type": "ActivityDTO", "factory": "activityRepo", "from": "@mostajs/ticketing" }
+  ],
+
+  "menu": {
+    "name": "ticketingMenuContribution",
+    "from": "@mostajs/ticketing/lib/menu"
+  },
+
+  "permissions": {
+    "from": "@mostajs/ticketing/lib/permissions",
+    "permissionsConst": "TICKETING_PERMISSIONS",
+    "definitionsConst": "TICKETING_PERMISSION_DEFINITIONS",
+    "categoriesConst": "TICKETING_CATEGORY_DEFINITIONS",
+    "roles": [
+      {
+        "name": "agent_accueil",
+        "addPermissions": ["ticket:create", "ticket:view", "scan:validate", "scan:view_history"]
+      },
+      {
+        "name": "agent_attraction",
+        "addPermissions": ["ticket:view", "scan:validate"]
+      },
+      {
+        "name": "superviseur",
+        "addPermissions": ["ticket:view", "scan:view_history"]
+      }
+    ]
+  },
+
+  "i18n": [
+    { "namespace": "activities", "source": "node_modules/@mostajs/ticketing/i18n/fr/activities.json" },
+    { "namespace": "tickets", "source": "node_modules/@mostajs/ticketing/i18n/fr/tickets.json" }
+  ]
+}
