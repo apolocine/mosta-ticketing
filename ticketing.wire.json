@@ -46,5 +46,27 @@
   "i18n": [
     { "namespace": "activities", "source": "node_modules/@mostajs/ticketing/i18n/fr/activities.json" },
     { "namespace": "tickets", "source": "node_modules/@mostajs/ticketing/i18n/fr/tickets.json" }
+  ],
+
+  "apiRoutes": [
+    {
+      "path": "src/app/api/tickets/route.ts",
+      "code": "// Author: Dr Hamid MADANI drmdh@msn.com\nimport { createTicketsHandler } from '@mostajs/ticketing/api/tickets.route'\nimport { ticketRepo, clientRepo, clientAccessRepo, activityRepo } from '@/dal/service'\nimport { checkPermission } from '@/lib/authCheck'\n\nexport const { GET, POST } = createTicketsHandler({\n  getRepositories: async () => ({\n    ticketRepo: await ticketRepo(),\n    clientRepo: await clientRepo(),\n    clientAccessRepo: await clientAccessRepo(),\n    activityRepo: await activityRepo(),\n  }),\n  checkAuth: async (req, perm) => {\n    const result = await checkPermission(perm)\n    return { error: result.error || null, userId: result.userId || '' }\n  },\n})"
+    },
+    {
+      "path": "src/app/api/scan/route.ts",
+      "code": "// Author: Dr Hamid MADANI drmdh@msn.com\nimport { createScanHandler } from '@mostajs/ticketing/api/scan.route'\nimport { ticketRepo, clientAccessRepo, scanLogRepo, clientRepo } from '@/dal/service'\nimport { checkPermission } from '@/lib/authCheck'\n\nexport const { POST } = createScanHandler({\n  getRepositories: async () => ({\n    ticketRepo: await ticketRepo(),\n    clientAccessRepo: await clientAccessRepo(),\n    scanLogRepo: await scanLogRepo(),\n    clientRepo: await clientRepo(),\n  }),\n  checkAuth: async (req) => {\n    const result = await checkPermission('scan:validate')\n    return { error: result.error || null, userId: result.userId || '' }\n  },\n})"
+    }
+  ],
+
+  "pages": [
+    {
+      "path": "src/app/dashboard/tickets/page.tsx",
+      "code": "'use client'\n// Author: Dr Hamid MADANI drmdh@msn.com\nimport { useEffect, useState } from 'react'\n\nexport default function TicketsPage() {\n  const [tickets, setTickets] = useState<any[]>([])\n  const [loading, setLoading] = useState(true)\n\n  useEffect(() => {\n    fetch('/api/tickets').then(r => r.json()).then(d => { setTickets(d.data || []); setLoading(false) })\n  }, [])\n\n  if (loading) return <div className=\"p-6\">Chargement...</div>\n\n  return (\n    <div className=\"p-6 space-y-4\">\n      <h1 className=\"text-2xl font-bold\">Tickets</h1>\n      <div className=\"grid gap-2\">\n        {tickets.map((t: any) => (\n          <div key={t.id} className={`p-3 border rounded ${t.status === 'active' ? 'bg-green-50' : 'bg-gray-50'}`}>\n            #{t.ticketNumber} — {t.clientName} — {t.activityName} — {t.status}\n          </div>\n        ))}\n      </div>\n    </div>\n  )\n}"
+    },
+    {
+      "path": "src/app/dashboard/scan/page.tsx",
+      "code": "'use client'\n// Author: Dr Hamid MADANI drmdh@msn.com\nimport { ScannerView } from '@mostajs/scan'\n\nexport default function ScanPage() {\n  return (\n    <div className=\"p-6 space-y-4\">\n      <h1 className=\"text-2xl font-bold\">Scanner</h1>\n      <ScannerView apiEndpoint=\"/api/scan\" />\n    </div>\n  )\n}"
+    }
   ]
 }
