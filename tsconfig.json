@@ -13,7 +13,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "jsx": "react-jsx"
   },
   "include": [
     "schemas",
@@ -21,8 +22,12 @@
     "lib",
     "api",
     "types",
+    "pages",
+    "components",
+    "hooks",
     "index.ts",
-    "server.ts"
+    "server.ts",
+    "register.ts"
   ],
   "exclude": ["node_modules", "dist"]
 }

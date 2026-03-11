@@ -1,0 +1,12 @@
+{
+  "name": "ticketing",
+  "package": "@mostajs/ticketing",
+  "version": "2.0.0",
+  "type": "business",
+  "priority": 95,
+  "dependencies": ["auth", "subscriptions"],
+  "displayName": "Billetterie",
+  "description": "Tickets, scan, validation — billetterie pure",
+  "icon": "Ticket",
+  "register": "./dist/register.js"
+}

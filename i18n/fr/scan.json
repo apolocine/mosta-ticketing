@@ -1,0 +1,25 @@
+{
+  "_author": "Dr Hamid MADANI drmdh@msn.com",
+  "title": "Scanner",
+  "scan": "Scanner un ticket",
+  "history": "Historique des scans",
+  "result": {
+    "granted": "ACCÈS ACCORDÉ",
+    "denied": "ACCÈS REFUSÉ"
+  },
+  "info": {
+    "client": "Client",
+    "activity": "Activité",
+    "quotaRemaining": "Quota restant",
+    "locker": "Casier"
+  },
+  "denyReasons": {
+    "ticket_expired": "Ticket expiré",
+    "ticket_already_used": "Ticket déjà utilisé",
+    "ticket_cancelled": "Ticket annulé",
+    "quota_depleted": "Quota épuisé",
+    "access_expired": "Accès expiré",
+    "client_suspended": "Client suspendu",
+    "invalid_ticket": "Ticket invalide"
+  }
+}

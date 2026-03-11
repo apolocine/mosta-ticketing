@@ -1,7 +1,7 @@
 {
   "name": "@mostajs/ticketing",
-  "version": "1.0.3",
-  "description": "Reusable ticketing module — ticket lifecycle, scan validation, quota management, API route factories",
+  "version": "3.0.1",
+  "description": "Ticketing module — tickets, scan, face recognition, quota management (merged scan+face)",
   "author": "Dr Hamid MADANI <drmdh@msn.com>",
   "license": "MIT",
   "type": "module",
@@ -13,25 +13,10 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./schemas/*": {
-      "types": "./dist/schemas/*.d.ts",
-      "import": "./dist/schemas/*.js",
-      "default": "./dist/schemas/*.js"
-    },
-    "./repositories/*": {
-      "types": "./dist/repositories/*.d.ts",
-      "import": "./dist/repositories/*.js",
-      "default": "./dist/repositories/*.js"
-    },
-    "./lib/*": {
-      "types": "./dist/lib/*.d.ts",
-      "import": "./dist/lib/*.js",
-      "default": "./dist/lib/*.js"
-    },
-    "./api/*": {
-      "types": "./dist/api/*.d.ts",
-      "import": "./dist/api/*.js",
-      "default": "./dist/api/*.js"
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/server.js",
+      "default": "./dist/server.js"
     },
     "./lib/permissions": {
       "types": "./dist/lib/permissions.d.ts",
@@ -43,16 +28,92 @@
       "import": "./dist/lib/menu.js",
       "default": "./dist/lib/menu.js"
     },
+    "./lib/audio": {
+      "types": "./dist/lib/audio.d.ts",
+      "import": "./dist/lib/audio.js",
+      "default": "./dist/lib/audio.js"
+    },
+    "./lib/face-api": {
+      "types": "./dist/lib/face-api.d.ts",
+      "import": "./dist/lib/face-api.js",
+      "default": "./dist/lib/face-api.js"
+    },
+    "./lib/face-matcher": {
+      "types": "./dist/lib/face-matcher.d.ts",
+      "import": "./dist/lib/face-matcher.js",
+      "default": "./dist/lib/face-matcher.js"
+    },
+    "./lib/face-utils": {
+      "types": "./dist/lib/face-utils.d.ts",
+      "import": "./dist/lib/face-utils.js",
+      "default": "./dist/lib/face-utils.js"
+    },
     "./types": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/types/index.js",
       "default": "./dist/types/index.js"
+    },
+    "./register": {
+      "types": "./dist/register.d.ts",
+      "import": "./dist/register.js",
+      "default": "./dist/register.js"
+    },
+    "./pages/TicketsPage": {
+      "types": "./dist/pages/TicketsPage.d.ts",
+      "import": "./dist/pages/TicketsPage.js",
+      "default": "./dist/pages/TicketsPage.js"
+    },
+    "./pages/ScanPage": {
+      "types": "./dist/pages/ScanPage.d.ts",
+      "import": "./dist/pages/ScanPage.js",
+      "default": "./dist/pages/ScanPage.js"
+    },
+    "./components/ScannerView": {
+      "types": "./dist/components/ScannerView.d.ts",
+      "import": "./dist/components/ScannerView.js",
+      "default": "./dist/components/ScannerView.js"
+    },
+    "./components/ScanResultCard": {
+      "types": "./dist/components/ScanResultCard.d.ts",
+      "import": "./dist/components/ScanResultCard.js",
+      "default": "./dist/components/ScanResultCard.js"
+    },
+    "./components/FaceDetector": {
+      "types": "./dist/components/FaceDetector.d.ts",
+      "import": "./dist/components/FaceDetector.js",
+      "default": "./dist/components/FaceDetector.js"
+    },
+    "./hooks/useScan": {
+      "types": "./dist/hooks/useScan.d.ts",
+      "import": "./dist/hooks/useScan.js",
+      "default": "./dist/hooks/useScan.js"
+    },
+    "./hooks/useCamera": {
+      "types": "./dist/hooks/useCamera.d.ts",
+      "import": "./dist/hooks/useCamera.js",
+      "default": "./dist/hooks/useCamera.js"
+    },
+    "./hooks/useFaceDetection": {
+      "types": "./dist/hooks/useFaceDetection.d.ts",
+      "import": "./dist/hooks/useFaceDetection.js",
+      "default": "./dist/hooks/useFaceDetection.js"
+    },
+    "./api/detect.route": {
+      "types": "./dist/api/detect.route.d.ts",
+      "import": "./dist/api/detect.route.js",
+      "default": "./dist/api/detect.route.js"
+    },
+    "./i18n/*": "./i18n/*",
+    "./api/recognize.route": {
+      "types": "./dist/api/recognize.route.d.ts",
+      "import": "./dist/api/recognize.route.js",
+      "default": "./dist/api/recognize.route.js"
     }
   },
   "files": [
     "dist",
     "i18n",
-    "ticketing.wire.json",
+    "wire.json",
     "LICENSE",
     "README.md"
   ],
@@ -61,6 +122,8 @@
     "ticket",
     "scan",
     "qrcode",
+    "face-recognition",
+    "face-detection",
     "quota",
     "nextjs",
     "mosta"
@@ -78,19 +141,39 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@mostajs/orm": "^1.0.0"
+    "@mostajs/orm": "^1.4.12",
+    "@vladmandic/face-api": "^1.7.0"
   },
   "peerDependencies": {
-    "next": ">=14"
+    "@mostajs/socle": ">=2.0.0",
+    "@mostajs/subscriptions": ">=1.0.0",
+    "html5-qrcode": ">=2.3.0",
+    "lucide-react": ">=0.400.0",
+    "next": ">=14",
+    "react": ">=18"
   },
   "peerDependenciesMeta": {
     "next": {
       "optional": true
+    },
+    "@mostajs/subscriptions": {
+      "optional": true
+    },
+    "html5-qrcode": {
+      "optional": true
+    },
+    "lucide-react": {
+      "optional": true
     }
   },
   "devDependencies": {
+    "@mostajs/socle": "^2.0.0",
     "@types/node": "^25.3.3",
+    "@types/react": "^19.0.0",
+    "html5-qrcode": "^2.3.8",
+    "lucide-react": "^0.575.0",
     "next": "^16.1.6",
+    "react": "^19.0.0",
     "typescript": "^5.9.3"
   }
 }
